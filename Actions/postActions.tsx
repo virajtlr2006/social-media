@@ -2,6 +2,7 @@
 
 import { NewPost, PostTable } from "@/db/schema"
 import db from ".."
+import { eq } from "drizzle-orm"
 
 // Create Post Action
 export const CreatePostAction = async (data:NewPost) => {
@@ -17,4 +18,12 @@ export const FetchAllPostAction = async () => {
     const FetchAllPost = await db.select().from(PostTable)
     // console.log(FetchAllPost)
     return FetchAllPost
+}
+
+// Fetch Post by ID
+export const FetchPostBYIDAction = async (id:number) => {
+    // Fetch The single post from db id the id from params and db match
+    const FetchSinglePost = await db.select().from(PostTable).where(eq(PostTable.id,Number(id)))
+    // console.log(id)
+    return FetchSinglePost
 }
