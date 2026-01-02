@@ -10,3 +10,11 @@ export const CreatePostAction = async (data:NewPost) => {
     // console.log(create)
     return true
 }
+
+// Fetch All Post Action
+export const FetchAllPostAction = async () => {
+    // Fetch all posts from the databse
+    const FetchAllPost = await db.select().from(PostTable)
+    // console.log(FetchAllPost)
+    return FetchAllPost
+}
