@@ -31,6 +31,7 @@ export const FetchPostBYIDAction = async (id:number) => {
 
 // Delete Post by ID
 export const DeletePostAction = async (id:number) => {
+    //Find matching id in db and delete the post
     const deletePost = await db.delete(PostTable).where(eq(PostTable.id,Number(id)))
     return true
 }
