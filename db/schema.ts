@@ -9,3 +9,4 @@ export const PostTable = pgTable("posts", {
 });
 
 export type Posts = typeof PostTable.$inferSelect;
+export type NewPost = typeof PostTable.$inferInsert;
