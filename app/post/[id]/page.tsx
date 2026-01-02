@@ -58,6 +58,12 @@ const page = () => {
     router.push('/post');
   }
 
+  // Update Post
+  const UpdatePost = async (id:number) => {
+    router.push(`/post/update/${id}`)
+  }
+
+
   return (
     <div>
       {/* Display post content only if post data is available */}
@@ -70,7 +76,7 @@ const page = () => {
           {/* Show update and delete buttons only to post owner */}
           {isOwner &&
             <div>
-              <Button className='border-4 bg-blue-500'>Update</Button>
+              <Button onClick={() => UpdatePost(Number(id))} className='border-4 bg-blue-500'>Update</Button>
               <Button onClick={()=> DeletePost(Number(id))} className='border-4 bg-red-500'>Delete</Button>
             </div>
           }

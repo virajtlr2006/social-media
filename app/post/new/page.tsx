@@ -4,12 +4,15 @@ import { CreatePostAction } from '@/Actions/postActions'
 import { Input } from '@/components/ui/input'
 import { NewPost } from '@/db/schema'
 import { useUser } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from "react-hook-form"
 
 const page = () => {
 
   // Get the current user from Clerk
   const {user} = useUser()
+
+  const router = useRouter()
 
   const {
     register,
@@ -24,6 +27,7 @@ const page = () => {
     const newData = { ...data, username: user?.username || "viraj_tlr" }
     // Data send to backend
     await CreatePostAction(newData)
+    router.push("/post")
   }
 
 
