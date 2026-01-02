@@ -25,5 +25,12 @@ export const FetchPostBYIDAction = async (id:number) => {
     // Fetch The single post from db id the id from params and db match
     const FetchSinglePost = await db.select().from(PostTable).where(eq(PostTable.id,Number(id)))
     // console.log(id)
-    return FetchSinglePost
+    return FetchSinglePost[0]
+}
+
+
+// Delete Post by ID
+export const DeletePostAction = async (id:number) => {
+    const deletePost = await db.delete(PostTable).where(eq(PostTable.id,Number(id)))
+    return true
 }

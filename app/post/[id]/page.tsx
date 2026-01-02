@@ -1,10 +1,10 @@
 'use client'
 
-import { FetchPostBYIDAction } from '@/Actions/postActions'
+import { DeletePostAction, FetchPostBYIDAction } from '@/Actions/postActions'
 import { Button } from '@/components/ui/button'
 import { Posts } from '@/db/schema'
 import { useUser } from '@clerk/nextjs'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 // Component to display a single post with owner controls
@@ -12,6 +12,8 @@ const page = () => {
 
   // Get post ID from URL params
   const { id } = useParams()
+
+  const router = useRouter()
 
   // Get current user info from Clerk authentication
   const { user, isLoaded } = useUser()
@@ -34,18 +36,27 @@ const page = () => {
   if (!isLoaded) return <p>Loading....</p>
 
   // Fetch single post from database and check if current user is the owner
-  const FetchPostByID = async (id: Number) => {
+  const FetchPostByID = async (id: number) => {
     const SinglePost = await FetchPostBYIDAction(Number(id))
-    setSinglepost(SinglePost[0] || null)
+    // console.log(SinglePost)
+    setSinglepost(SinglePost || null)
 
     // Compare current user's username with post author's username
-    if (user?.username == SinglePost[0].username) {
-      console.log("Username form hook",user?.username)
-      console.log("Username form post",SinglePost[0].username)
+    if (user?.username == SinglePost.username) {
+      // console.log("Username form hook",user?.username)
+      // console.log("Username form post",SinglePost[0].username)
       setIsOwner(true)
     }
   }
 
+  // Delete Post
+  const DeletePost = async (id:number) => {
+    // Id sent to server, so server can find matching is in db and delete it
+    await DeletePostAction(Number(id))
+    alert("Post Deleted Successfully")
+    // After deleteion of post, redirect to /post
+    router.push('/post');
+  }
 
   return (
     <div>
@@ -60,7 +71,7 @@ const page = () => {
           {isOwner &&
             <div>
               <Button className='border-4 bg-blue-500'>Update</Button>
-              <Button className='border-4 bg-red-500'>Delete</Button>
+              <Button onClick={()=> DeletePost(Number(id))} className='border-4 bg-red-500'>Delete</Button>
             </div>
           }
         </div>
