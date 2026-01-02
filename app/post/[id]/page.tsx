@@ -4,7 +4,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div>Let's Start Buliding with Home Page</div>
+    <div>Single Post Details</div>
   )
 }
 
